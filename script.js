@@ -30,3 +30,52 @@ document.querySelectorAll('.lens-tab').forEach((tab) => {
     panel.querySelector('.panel-proof strong').textContent = lens.proof;
   });
 });
+
+const progress = document.createElement('div');
+progress.className = 'scroll-progress';
+progress.setAttribute('aria-hidden', 'true');
+document.body.appendChild(progress);
+
+let scrollFrame;
+const updateProgress = () => {
+  const available = document.documentElement.scrollHeight - window.innerHeight;
+  const percent = available > 0 ? (window.scrollY / available) * 100 : 0;
+  progress.style.setProperty('--scroll-progress', percent + '%');
+  scrollFrame = null;
+};
+window.addEventListener('scroll', () => {
+  if (!scrollFrame) scrollFrame = requestAnimationFrame(updateProgress);
+}, { passive: true });
+updateProgress();
+
+const motionAllowed = window.matchMedia('(pointer: fine) and (prefers-reduced-motion: no-preference)').matches;
+if (motionAllowed) {
+  const hero = document.querySelector('.hero');
+  const heroCard = document.querySelector('.hero-card');
+  hero.addEventListener('pointermove', (event) => {
+    const bounds = heroCard.getBoundingClientRect();
+    const x = (event.clientX - bounds.left) / bounds.width - .5;
+    const y = (event.clientY - bounds.top) / bounds.height - .5;
+    heroCard.style.setProperty('--card-ry', (x * 8) + 'deg');
+    heroCard.style.setProperty('--card-rx', (-y * 7) + 'deg');
+  });
+  hero.addEventListener('pointerleave', () => {
+    heroCard.style.setProperty('--card-ry', '1deg');
+    heroCard.style.setProperty('--card-rx', '0deg');
+  });
+
+  const glow = document.createElement('div');
+  glow.className = 'cursor-glow';
+  glow.setAttribute('aria-hidden', 'true');
+  document.body.appendChild(glow);
+  window.addEventListener('pointermove', (event) => {
+    glow.style.left = event.clientX + 'px';
+    glow.style.top = event.clientY + 'px';
+    glow.classList.add('active');
+  }, { passive: true });
+  document.documentElement.addEventListener('mouseleave', () => glow.classList.remove('active'));
+}
+
+document.querySelectorAll('.experience-list .reveal, .proof-grid .reveal').forEach((item, index) => {
+  item.style.transitionDelay = Math.min(index * 70, 210) + 'ms';
+});
