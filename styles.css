@@ -31,3 +31,8 @@ body{background-color:var(--paper);background-image:linear-gradient(rgba(13,19,3
 @media(max-width:800px){body{background-size:36px 36px;background-attachment:scroll}.cursor-glow{display:none}.hero-card:hover{box-shadow:8px 8px 0 var(--blue)}.experience:hover{padding-left:0;padding-right:0;transform:none}.proof-card{--turn:0deg!important}}
 @media(prefers-reduced-motion:reduce){.cursor-glow{display:none}.hero-card,.experience,.proof-card,.now-card,.button:after{transition:none!important;transform:none!important}.button:after{display:none}}
 
+/* Community proof statement */
+.community-kicker{display:block;margin-bottom:54px}
+.community-kicker .section-label{margin-bottom:22px}
+.proof-pill{display:block;width:100%;padding:22px 28px;text-align:center;font:500 clamp(1.8rem,4.8vw,4.5rem)/1 var(--serif);letter-spacing:-.035em;border:2px solid var(--lime);box-shadow:8px 8px 0 var(--blue)}
+@media(max-width:520px){.community-kicker{margin-bottom:42px}.proof-pill{padding:18px 12px;font-size:clamp(1.65rem,9vw,2.5rem);box-shadow:5px 5px 0 var(--blue)}}
